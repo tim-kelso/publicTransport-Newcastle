@@ -1,0 +1,32 @@
+---
+title: "OnDemand_Patronage"
+author: "Tim Kelso"
+date: "16/06/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, include = FALSE)
+library(tidyverse)
+```
+
+``` {r import_wrangle}
+OnDemandPilot_Patronage <- read_csv("../data_raw/on_demand_pilot_patronage_2021-04.csv")
+
+
+OnDemandPilot_Patronage <- OnDemandPilot_Patronage %>% 
+  rename(PilotName = `Contract Name`) %>% 
+  pivot_longer(cols = `Oct-17`:last_col(), 
+               names_to = "Date",
+               values_to = "Trips") %>% 
+  mutate(Date = dmy(paste0("01-", Date))) #convert to date
+```
+
+``` {r plot}
+OnDemandPilot_Patronage_Plot <- OnDemandPilot_Patronage %>%
+  filter(PilotName == "Bykko - Newcastle (Pilot)") %>% 
+  ggplot(aes(x = Month, y = Trips)) +
+  geom_point()+
+  geom_line(aes(color = PilotName)) +
+  facet_wrap(vars(Year))
+```
