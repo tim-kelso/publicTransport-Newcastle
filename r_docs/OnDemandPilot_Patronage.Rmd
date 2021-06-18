@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, include = FALSE)
 library(tidyverse)
+library(lubridate)
 ```
 
 ``` {r import_wrangle}
@@ -23,10 +24,15 @@ OnDemandPilot_Patronage <- OnDemandPilot_Patronage %>%
 ```
 
 ``` {r plot}
-OnDemandPilot_Patronage_Plot <- OnDemandPilot_Patronage %>%
+Bykko_Patronage_Plot <- OnDemandPilot_Patronage %>%
   filter(PilotName == "Bykko - Newcastle (Pilot)") %>% 
-  ggplot(aes(x = Month, y = Trips)) +
-  geom_point()+
+  ggplot(aes(x = Date, y = Trips)) +
+  geom_point(aes(color = PilotName))+
   geom_line(aes(color = PilotName)) +
-  facet_wrap(vars(Year))
+  scale_x_date(date_labels = "%b-%Y") + #TODO: add more breaks in x-axis to highlight peak/trough times
+  theme_classic()
+
+#TODO: crystallise the question/s you want to ask
+#TODO: investigate if there are any other bikeshare pilots in this list? eg. LiveBetter?
+#TODO: investigate if there are any other pilots nearby that might be worth comparing?
 ```
