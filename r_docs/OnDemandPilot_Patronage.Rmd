@@ -30,7 +30,9 @@ Bykko_Patronage_Plot <- OnDemandPilot_Patronage %>%
   geom_point(aes(color = PilotName))+
   geom_line(aes(color = PilotName)) +
   scale_x_date(date_labels = "%b-%Y") + #TODO: add more breaks in x-axis to highlight peak/trough times
-  theme_classic()
+  theme_classic() +
+  labs(caption = "Source: TfNSW Open Data Hub, accessed 3/5/2021")
+ggsave("../images/BykkoPlot.png")
 
 #TODO: crystallise the question/s you want to ask
 #TODO: investigate if there are any other bikeshare pilots in this list? eg. LiveBetter?
